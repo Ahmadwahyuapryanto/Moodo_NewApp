@@ -10,6 +10,7 @@
 ### ✨ Fitur Utama
 
 * **Manajemen Tugas:** Buat, atur, dan lacak semua tugas Anda dengan mudah.
+* **Fitur Tugas Kelompok:** memungkinkan Anda untuk membuat sebuah tugas dan mengundang teman melalui email untuk berkolaborasi. Semua anggota yang diundang dapat melihat tugas yang sama, sehingga memudahkan kerja sama tim dalam menyelesaikan tujuan bersama.
 * **Kalender Cerdas:** Lihat jadwal dan tugas dalam tampilan kalender yang intuitif, lengkap dengan data hari libur nasional Indonesia.
 * **Visualisasi Progres:** Pantau kemajuan Anda melalui grafik dan diagram yang informatif.
 * **Integrasi AI:** Dapatkan saran, ide, dan motivasi dari asisten AI yang terintegrasi.
