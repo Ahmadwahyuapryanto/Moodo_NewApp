@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "962136968511",
+    "project_id": "moddoapp-b34b1",
+    "storage_bucket": "moddoapp-b34b1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:962136968511:android:b2e702c17f0aa11ee3d78a",
+        "android_client_info": {
+          "package_name": "com.example.moodo_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBr_6Do5QKfHC0Ni8yRx22tozGhC7vkqY0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
