@@ -22,7 +22,7 @@
 - ✅ Animasi: (Animasi Lottie)
 
 ### Tampilan
-<img src="assets/Moddo.png"/>
+<img src="assets/Moodo.png"/>
 
 ### 🤝 Kontribusi
 
