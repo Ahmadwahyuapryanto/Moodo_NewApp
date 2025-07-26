@@ -1,0 +1,29 @@
+{
+  "tutorial": [
+    {
+      "id": 1,
+      "title": "Memulai dengan Tugas",
+      "content": "Untuk menambahkan tugas baru, pergi ke halaman 'Tugas' dan tekan tombol plus (+) di pojok kanan bawah. Anda bisa memilih antara tugas mandiri atau kelompok."
+    },
+    {
+      "id": 2,
+      "title": "Melihat Jadwal di Kalender",
+      "content": "Halaman 'Kalender' akan menampilkan semua tugas dan jadwal pelajaran Anda. Ketuk pada sebuah tanggal untuk melihat detail acara pada hari tersebut. Anda juga bisa menambahkan kegiatan pribadi dengan menekan tombol plus (+)."
+    },
+    {
+      "id": 3,
+      "title": "Mengobrol dengan Asisten AI",
+      "content": "Merasa butuh teman? Buka halaman 'Asisten'. Pilih mood Anda, dan asisten AI kami akan merespons. Anda bisa melanjutkan percakapan untuk menceritakan apa pun yang Anda rasakan."
+    },
+    {
+      "id": 4,
+      "title": "Mengatur Profil dan Statistik",
+      "content": "Di halaman 'Profil', Anda bisa mengganti foto, melihat statistik produktivitas, dan memantau rangkuman mood Anda per minggu atau bulan. Semua pengaturan akun juga ada di sini."
+    },
+    {
+      "id": 5,
+      "title": "Mengubah Tema",
+      "content": "Tidak suka tampilan default? Masuk ke 'Profil' lalu tekan ikon gerigi (⚙️) untuk masuk ke halaman 'Pengaturan'. Di sana Anda bisa memilih antara tema terang, gelap, atau mengikuti pengaturan sistem."
+    }
+  ]
+}

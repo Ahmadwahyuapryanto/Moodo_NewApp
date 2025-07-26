@@ -7,6 +7,9 @@ import 'package:moodo_app/screens/auth_wrapper.dart';
 import 'package:moodo_app/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
 
+// --- TAMBAHKAN IMPORT INI ---
+import 'package:moodo_app/screens/help_screen.dart'; // Import halaman bantuan
+
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
@@ -15,7 +18,6 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  // Menghapus `final User? currentUser` dari sini untuk selalu mendapatkan data terbaru
   final _nameController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLoading = false;
@@ -26,17 +28,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _loadUserPreferences();
   }
 
-  // --- FUNGSI DIPERBAIKI ---
-  // Memuat preferensi pengguna dengan lebih aman
+  // --- FUNGSI-FUNGSI ANDA (TIDAK DIUBAH) ---
   void _loadUserPreferences() {
     final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return; // Keluar jika user null
-
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid) // Menggunakan user.uid yang dijamin tidak null di sini
-        .get()
-        .then((doc) {
+    if (user == null) return;
+    FirebaseFirestore.instance.collection('users').doc(user.uid).get().then((doc) {
       if (mounted && doc.exists) {
         final data = doc.data();
         if (data != null) {
@@ -48,74 +44,44 @@ class _SettingsScreenState extends State<SettingsScreen> {
     });
   }
 
-  // --- FUNGSI DIPERBAIKI ---
-  // Menyimpan Nama Pengingatku dengan lebih aman
   Future<void> _saveNotificationName() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Anda harus login untuk menyimpan.')),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Anda harus login untuk menyimpan.')));
       return;
     }
-
     if (_nameController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Nama pengingat tidak boleh kosong.')),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Nama pengingat tidak boleh kosong.')));
       return;
     }
-
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
+    await FirebaseFirestore.instance.collection('users').doc(user.uid)
         .set({'notificationSenderName': _nameController.text.trim()}, SetOptions(merge: true));
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Nama pengingat berhasil disimpan!')),
-    );
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Nama pengingat berhasil disimpan!')));
     FocusScope.of(context).unfocus();
   }
 
-  // --- FUNGSI DIPERBAIKI ---
-  // Mengubah password dengan lebih aman
   Future<void> _changePassword() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Anda harus login untuk mengubah password.')),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Anda harus login untuk mengubah password.')));
       return;
     }
-
     if (_passwordController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Password baru tidak boleh kosong.')),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Password baru tidak boleh kosong.')));
       return;
     }
-
     setState(() { _isLoading = true; });
     try {
       await user.updatePassword(_passwordController.text.trim());
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Password berhasil diubah. Silakan login kembali.')),
-      );
-
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Password berhasil diubah. Silakan login kembali.')));
       await FirebaseAuth.instance.signOut();
-
-      if(mounted) {
+      if (mounted) {
         Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const AuthWrapper()),
-              (route) => false,
+          MaterialPageRoute(builder: (context) => const AuthWrapper()), (route) => false,
         );
       }
-
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Gagal mengubah password: ${e.toString()}')),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Gagal mengubah password: ${e.toString()}')));
     } finally {
       if (mounted) {
         setState(() { _isLoading = false; });
@@ -123,17 +89,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
-  // --- FUNGSI DIPERBAIKI ---
-  // Menghapus akun dengan lebih aman
   Future<void> _deleteAccount() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Anda harus login untuk menghapus akun.')),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Anda harus login untuk menghapus akun.')));
       return;
     }
-
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -147,15 +108,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             TextButton(
               child: const Text('Hapus', style: TextStyle(color: Colors.red)),
-              onPressed: () async {
-                // Logika penghapusan akun (memerlukan re-autentikasi)
-              },
+              onPressed: () async {},
             ),
           ],
         );
       },
     );
   }
+  // --- AKHIR DARI FUNGSI-FUNGSI ANDA ---
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +130,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           : ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          // Bagian Tampilan (Tidak Diubah)
+          // Bagian Tampilan
           _buildSectionHeader('Tampilan'),
           Card(
             child: Padding(
@@ -201,7 +161,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           const SizedBox(height: 24),
 
-          // Bagian Notifikasi (Tidak Diubah)
+          // Bagian Notifikasi
           _buildSectionHeader('Notifikasi'),
           Card(
             child: Padding(
@@ -240,7 +200,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           const SizedBox(height: 24),
 
-          // Bagian Akun (Tidak Diubah)
+          // Bagian Akun
           _buildSectionHeader('Akun'),
           Card(
             child: Padding(
@@ -268,7 +228,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           const SizedBox(height: 24),
 
-          // Bagian Keluar & Hapus (Tidak Diubah)
+          // --- BAGIAN BANTUAN DITAMBAHKAN DI SINI ---
+          _buildSectionHeader('Bantuan'),
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.help_outline),
+              title: const Text('Tutorial Aplikasi'),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HelpScreen()),
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: 24),
+          // ------------------------------------------
+
+          // Bagian Keluar & Hapus
           ListTile(
             leading: const Icon(Icons.logout, color: Colors.orange),
             title: const Text('Keluar (Logout)'),
@@ -299,7 +277,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
         title,
         style: Theme.of(context).textTheme.titleLarge?.copyWith(
           fontWeight: FontWeight.bold,
-          color: Theme.of(context).brightness == Brightness.dark ? Colors.white70 : Colors.grey[800],
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Colors.white70
+              : Colors.grey[800],
         ),
       ),
     );
