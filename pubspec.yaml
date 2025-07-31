@@ -84,6 +84,8 @@ flutter:
   assets:
      - images/google_logo.png
      - assets/animations/document.json
+     - assets/animations/Task.json
+     - assets/logo_moodo.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

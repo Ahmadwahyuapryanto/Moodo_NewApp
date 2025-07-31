@@ -1,3 +1,5 @@
+// lib/screens/tasks_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,6 +9,7 @@ import 'package:moodo_app/screens/add_task_screen.dart';
 import 'package:moodo_app/widgets/group_task_detail_sheet.dart';
 import 'package:moodo_app/widgets/task_card.dart';
 import 'package:moodo_app/widgets/task_detail_sheet.dart';
+import 'package:lottie/lottie.dart'; // Jangan lupa import Lottie
 
 class TasksScreen extends StatefulWidget {
   const TasksScreen({super.key});
@@ -51,6 +54,7 @@ class _TasksScreenState extends State<TasksScreen>
     }
   }
 
+  // --- WIDGET INI YANG DIPERBARUI ---
   Widget _buildTaskList(String taskType) {
     if (currentUser == null) {
       return const Center(child: Text("Silakan login terlebih dahulu."));
@@ -84,11 +88,32 @@ class _TasksScreenState extends State<TasksScreen>
                     "Terjadi error. Pastikan Anda sudah membuat indeks komposit yang benar di Firebase.\nError: ${snapshot.error}", textAlign: TextAlign.center),
               ));
         }
+        // --- PERUBAHAN DI SINI ---
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-          return const Center(
-              child: Text('Tidak ada tugas aktif.',
-                  style: TextStyle(color: Colors.grey)));
+          // Tampilkan animasi dan teks jika tidak ada tugas
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Lottie.asset(
+                    'assets/animations/Task.json', // Path ke file animasi Anda
+                    width: 200,
+                    height: 200,
+                  ),
+                  const SizedBox(height: 24),
+                  const Text(
+                    'Tidak Ada tugas aktif.\nSilahkan tambahkan Tugas Baru',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 16, color: Colors.grey),
+                  ),
+                ],
+              ),
+            ),
+          );
         }
+        // --- AKHIR PERUBAHAN ---
 
         final tasks = snapshot.data!.docs
             .map((doc) => Task.fromFirestore(doc))
@@ -111,26 +136,15 @@ class _TasksScreenState extends State<TasksScreen>
 
   @override
   Widget build(BuildContext context) {
-    // Menambahkan logika warna dinamis di sini
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
-    final cardColor = isDarkMode
-        ? Colors.purple.shade100 // Ungu muda untuk dark mode
-        : const Color(0xFFD6E6FF); // Biru muda (warna asli Anda) untuk light mode
-
-    final textColor = isDarkMode
-        ? Colors.black87 // Hitam untuk dark mode
-        : Theme.of(context).textTheme.bodyMedium?.color;
-
-    final titleColor = isDarkMode
-        ? Colors.black
-        : Theme.of(context).textTheme.bodyLarge?.color;
+    final cardColor = isDarkMode ? Colors.purple.shade100 : const Color(0xFFD6E6FF);
+    final textColor = isDarkMode ? Colors.black87 : Theme.of(context).textTheme.bodyMedium?.color;
+    final titleColor = isDarkMode ? Colors.black : Theme.of(context).textTheme.bodyLarge?.color;
 
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
-            // Header
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
@@ -143,11 +157,10 @@ class _TasksScreenState extends State<TasksScreen>
                 ],
               ),
             ),
-            // Kartu Motivasi diperbarui
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Card(
-                color: cardColor, // Menggunakan warna dinamis
+                color: cardColor,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
@@ -156,21 +169,20 @@ class _TasksScreenState extends State<TasksScreen>
                         'Motivasi Hari Ini',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: titleColor, // Menggunakan warna dinamis
+                          color: titleColor,
                         ),
                       ),
                       const SizedBox(height: 8),
                       Text(
                         randomQuote,
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: textColor), // Menggunakan warna dinamis
+                        style: TextStyle(color: textColor),
                       ),
                     ],
                   ),
                 ),
               ),
             ),
-            // TabBar
             TabBar(
               controller: _tabController,
               tabs: const [
@@ -178,7 +190,6 @@ class _TasksScreenState extends State<TasksScreen>
                 Tab(text: 'Tugas Kelompok'),
               ],
             ),
-            // Konten Tab
             Expanded(
               child: TabBarView(
                 controller: _tabController,
@@ -216,7 +227,7 @@ class _TasksScreenState extends State<TasksScreen>
                     children: [
                       Padding(
                         padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                        child:  Row(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Text('Tugas Kelompok',
